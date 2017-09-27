@@ -16,7 +16,7 @@ import static com.uno.gui.CardManager.setCardImage;
  * Created by ${gaboq} on 25/9/2017.
  */
 
-public abstract class GameView {
+public abstract class GameView extends JFrame {
 
 
     public static ImageIcon generateCardIcon(AbsCard card) {
@@ -71,7 +71,7 @@ public abstract class GameView {
 
     //===================== Main ========================
     public static void main(String[] args) throws Exception {
-        new MainLayout();
+        new LoginLayout();
     }
 
 }

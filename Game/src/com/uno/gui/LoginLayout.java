@@ -15,7 +15,7 @@ public class LoginLayout extends GameView {
     private ImageIcon goImg = new ImageIcon("res/goButton.png");
 
     private JButton go;
-    private JTextField nameField;    //textField.getText();
+    private JTextField nameField;
     private JLabel username;
     private JLabel logo;
 
@@ -35,7 +35,12 @@ public class LoginLayout extends GameView {
         setButtonProps(go, img);
         go.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(nameField.getText());
+                try {
+                    MainLayout newWindow = new MainLayout(nameField.getText());
+                    newWindow.setVisible(true);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
             }
         });
     }
@@ -85,7 +90,4 @@ public class LoginLayout extends GameView {
         window.add(go, gbc);
     }
 
-    public static void main(String[] args) {
-        new LoginLayout();
-    }
 }

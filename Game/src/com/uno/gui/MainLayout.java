@@ -31,14 +31,14 @@ public class MainLayout extends GameView{
     private ImageIcon orientImg = new ImageIcon("res/rotateImg.png");
 
     //============================================================== constructor
-    public MainLayout() throws Exception{
+    public MainLayout(String username) throws Exception{
         this.controller = new Controller();
+        controller.setUsername(username);
         generateDeck(7);
         this.cardManager = new CardManager(hand, this);
         JFrame window = initFrame("UNO");
         setComponents(window);
         window.pack();
-        window.setVisible(true);
     }
 
     private void generateDeck(int cardNumb) throws Exception {
