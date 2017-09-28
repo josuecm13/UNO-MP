@@ -21,4 +21,6 @@ public interface ICard extends Remote {
 
     AbsCard pushCard(AbsCard card) throws RemoteException;
 
+    AbsCard pushHelper(AbsCard card, int id) throws RemoteException;
+
 }

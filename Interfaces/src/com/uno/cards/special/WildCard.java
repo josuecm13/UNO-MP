@@ -10,9 +10,12 @@ public class WildCard extends SpecialCard{
     public void setColor(int color) {}
 
     public WildCard(){
+        number = 13;
         color = 4;
     }
 
-
-
+    @Override
+    public boolean isWild() {
+        return true;
+    }
 }

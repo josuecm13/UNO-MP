@@ -7,6 +7,7 @@ public class Reverse extends SpecialCard {
 
 
     public Reverse() {
+        number = 11;
         power = "Reverse";
     }
 

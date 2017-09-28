@@ -6,9 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-public class CardManager extends JComponent implements MouseListener {
+
+import static com.uno.gui.GameView.generateCardIcon;
+
+public class CardManager extends JComponent implements MouseListener, Serializable {
 
     private static final Color BACKGROUND_COLOR = Color.decode("#CC0000");
 
@@ -20,9 +24,8 @@ public class CardManager extends JComponent implements MouseListener {
     private CardGUI card;
     private MainLayout layout;
 
-    public CardManager(ArrayList<CardGUI> cards, MainLayout layout) {
+    public CardManager(ArrayList<CardGUI> cards) {
         deck = cards;
-        this.layout = layout;
         addMouseListener(this);
     }
 
@@ -34,13 +37,19 @@ public class CardManager extends JComponent implements MouseListener {
             AbsCard card = cardGUITemp.getCard();
             AbsCard newCar = layout.sendCard(card);
             if(newCar == null) {
-                layout.setTopCard();
+                //layout.setTopCard();
             } else {
                 deck.add(cardGUITemp);
             }
             placeDeck(deck);
             repaint();
         }
+    }
+
+
+
+    public void setLayout(MainLayout layout){
+        this.layout = layout;
     }
 
     public CardGUI getCard() {
@@ -83,18 +92,6 @@ public class CardManager extends JComponent implements MouseListener {
         }
     }
 
-    public static boolean movePosible(AbsCard card, AbsCard dropedCard) {
-        if(card.getColor() == dropedCard.getColor()) {
-            return true;
-        } else if(card.getNumber() == dropedCard.getNumber()) {
-            return true;
-        } else if(dropedCard.getColor() == 4){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -102,7 +99,6 @@ public class CardManager extends JComponent implements MouseListener {
         int height = getHeight();
         g.setColor(BACKGROUND_COLOR);
         g.fillRect(0, 0, width, height);
-        //ard.draw(g, this);
         for (CardGUI c : deck) {
             c.draw(g, this);
         }

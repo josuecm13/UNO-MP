@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
  * Created by ${gaboq} on 21/9/2017.
  */
 
-public interface IServer extends ICard,IClient {
+public interface IServer extends ICard,IClient,Observable {
 
     String getPlayers() throws RemoteException;
 
@@ -16,5 +16,6 @@ public interface IServer extends ICard,IClient {
 
     AbsCard getTopCard() throws RemoteException;
 
+    void setSelectedColor(int color) throws RemoteException;
 
 }

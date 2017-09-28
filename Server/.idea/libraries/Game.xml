@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="Interfaces1">
+  <library name="Game">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../Interfaces/out/production/Interfaces" />
+      <root url="file://$PROJECT_DIR$/../Game/out/production/Game" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

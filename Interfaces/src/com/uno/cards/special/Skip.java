@@ -6,6 +6,7 @@ package com.uno.cards.special;
 public class Skip extends SpecialCard {
 
     public Skip() {
+        number = 10;
         power = "Skip";
     }
 }

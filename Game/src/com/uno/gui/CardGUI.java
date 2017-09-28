@@ -5,9 +5,10 @@ import com.uno.cards.AbsCard;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
 
-public class CardGUI {
+public class CardGUI implements Serializable {
 
     //=================================================================== fields
     private AbsCard _card;

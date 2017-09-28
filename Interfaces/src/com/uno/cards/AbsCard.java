@@ -4,7 +4,9 @@ package com.uno.cards;
  * Created by ${gaboq} on 26/9/2017.
  */
 
-public abstract class AbsCard {
+import java.io.Serializable;
+
+public abstract class AbsCard implements Serializable{
 
     protected int number;
 

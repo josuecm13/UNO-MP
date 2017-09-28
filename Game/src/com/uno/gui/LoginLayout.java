@@ -36,8 +36,8 @@ public class LoginLayout extends GameView {
         go.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    MainLayout newWindow = new MainLayout(nameField.getText());
-                    newWindow.setVisible(true);
+                    setVisible(false);
+                    new MainLayout(nameField.getText());
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

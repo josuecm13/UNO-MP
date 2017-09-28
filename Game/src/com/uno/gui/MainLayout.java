@@ -3,6 +3,7 @@ package com.uno.gui;
 
 import com.uno.cards.AbsCard;
 import com.uno.client.Controller;
+import com.uno.interfaces.Observer;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,13 +16,13 @@ import java.util.ArrayList;
 import static com.uno.gui.CardManager.placeDeck;
 
 
-public class MainLayout extends GameView{
+public class MainLayout extends GameView {
 
     private Controller controller;
     private CardManager cardManager;
     private ArrayList<CardGUI> hand = new ArrayList<>();
 
-    private JLabel lbl;
+    private JLabel lbl = new JLabel();
     private JButton drawButton;
     private JButton btn;
 
@@ -35,11 +36,15 @@ public class MainLayout extends GameView{
         this.controller = new Controller();
         controller.setUsername(username);
         generateDeck(7);
-        this.cardManager = new CardManager(hand, this);
+        this.cardManager = new CardManager(hand);
         JFrame window = initFrame("UNO");
+        cardManager.setLayout(this);
         setComponents(window);
+        controller.setObserver(this);
         window.pack();
+        window.setVisible(true);
     }
+
 
     private void generateDeck(int cardNumb) throws Exception {
         for (int face=0; face < cardNumb; face++) {
@@ -51,13 +56,15 @@ public class MainLayout extends GameView{
         placeDeck(hand);
     }
 
-    private void drawCard(JFrame frame) throws Exception {
+    public void drawCard(JFrame frame) throws Exception {
         AbsCard card = controller.drawCard();
-        ImageIcon img = generateCardIcon(card);
-        CardGUI cardGUI = new CardGUI(img, card);
-        hand.add(cardGUI);
-        placeDeck(hand);
-        frame.repaint();
+        if(card != null) {
+            ImageIcon img = generateCardIcon(card);
+            CardGUI cardGUI = new CardGUI(img, card);
+            hand.add(cardGUI);
+            placeDeck(hand);
+            frame.repaint();
+        }
     }
 
     private void setDrawButton(JFrame frame) {
@@ -97,17 +104,17 @@ public class MainLayout extends GameView{
     public void setTopCard() throws Exception {
         AbsCard card = controller.setTopCard();
         ImageIcon img = generateCardIcon(card);
-        lbl = new JLabel(img);
-        lbl.setBorder(new EmptyBorder(16, 16, 16, 100));
+        lbl.setIcon(img);
     }
+
 
     @Override
     protected void setComponents(JFrame window) throws Exception {
         window.setContentPane(cardManager);
+        window.setLayout(new GridBagLayout());
         setDrawButton(window);
         setUNOButton(window);
         setTopCard();
-        window.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -119,5 +126,6 @@ public class MainLayout extends GameView{
         gbc.gridy = 0;
         window.add(lbl, gbc);
     }
+
 
 }

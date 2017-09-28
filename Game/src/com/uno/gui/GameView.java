@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import static com.uno.gui.CardManager.setCardImage;
 
@@ -16,7 +17,7 @@ import static com.uno.gui.CardManager.setCardImage;
  * Created by ${gaboq} on 25/9/2017.
  */
 
-public abstract class GameView extends JFrame {
+public abstract class GameView extends JFrame implements Serializable {
 
 
     public static ImageIcon generateCardIcon(AbsCard card) {

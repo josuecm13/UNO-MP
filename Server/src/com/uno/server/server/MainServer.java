@@ -1,7 +1,10 @@
 package com.uno.server.server;
 
+import com.uno.cards.AbsCard;
+import com.uno.gui.MainLayout;
 import com.uno.interfaces.Gui;
 import com.uno.interfaces.IServer;
+import com.uno.interfaces.Observer;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -11,23 +14,15 @@ import java.rmi.RemoteException;
  * Created by ${gaboq} on 21/9/2017.
  */
 
-public class MainServer {
+public class MainServer{ // implements Observer{
 
-    private MainServer() {
-        try {
-            IServer i =   new Server();
-            //Naming.rebind("rmi//localhost//server", i);
-            System.out.println("Server creado");
-        } catch (Exception e) {
-            System.out.println("Error Server");
-        }
-    }
+    IServer server;
 
-    public static void main(String[] args) throws RemoteException, MalformedURLException, InterruptedException {
+    private MainServer() throws MalformedURLException, RemoteException {
         Utils.setCodeBase(IServer.class);
-
-        IServer server = new Server();
+        this.server = new Server();
         Naming.rebind("UNOServer", server);
+        //server.addObserver(this);
         int opt;
         do{
             opt = Gui.menu("SERVER UNO",new String[]{"Get Players","Salir"});
@@ -37,6 +32,30 @@ public class MainServer {
                     break;
             }
         }while (opt != 1);
+    }
+
+    //@Override
+    public void update() throws RemoteException {
+        System.out.println(server.getTopCard().getNumber());
+    }
+
+    //@Override
+    public int getID() throws RemoteException {
+        return 0;
+    }
+
+    //@Override
+    public void drawCards(int i) throws RemoteException {
+        System.out.println("jeje");
+    }
+
+    //@Override
+    public void chooseColor() throws RemoteException {
+
+    }
+
+    public static void main(String[] args) throws MalformedURLException, RemoteException {
+        new MainServer();
     }
 
 }

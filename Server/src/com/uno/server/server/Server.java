@@ -3,41 +3,61 @@ package com.uno.server.server;
 import com.uno.cards.AbsCard;
 import com.uno.cards.CardFactory;
 import com.uno.interfaces.IServer;
+import com.uno.interfaces.Observer;
 import com.uno.server.players.Player;
 
-import javax.activity.InvalidActivityException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
-
-/**
- * Created by ${gaboq} on 21/9/2017.
- */
-
-public class Server extends UnicastRemoteObject implements IServer, Serializable{
+public class Server extends UnicastRemoteObject implements IServer, Serializable {
 
     private ArrayList<Player> players;
+    private ArrayList<Observer> observers;
     private Map<Integer, ArrayList<AbsCard>> playerCards;
+    private Map<Integer, Observer> clientObservers;
+    private Map<Player, Integer> playersID;
     private AbsCard topCard;
     private static final long serialVersionUID = 1L;
     private int playerID = new Random().nextInt();
+    private int currentClient;
+    private Player turnPlayer;
 
     protected Server() throws RemoteException {
         players = new ArrayList<>();
         playerCards = new HashMap<>();
+        observers = new ArrayList<>();
+        playersID = new HashMap<>();
+        clientObservers = new HashMap<>();
+        topCard = getCard();
+        //turnPlayer = players.get(0);
     }
+
+    private void nextTurn(int turn) {
+        int index = players.indexOf(turnPlayer);
+        if(index + turn < players.size())
+            turnPlayer = players.get(index + turn);
+        else {
+            index = index + turn % players.size();
+            turnPlayer = players.get(index);
+        }
+        currentClient = playersID.get(turnPlayer);
+        turnPlayer.setTurn(true);
+    }
+
+    private void endTurn() {
+        turnPlayer.setTurn(false);
+    }
+
 
     //ICard
     @Override
     public AbsCard generateCard(int clientID) throws Exception {
         AbsCard card = CardFactory.getCard();
-        addToDraw(card,clientID);
-        return card;
+        if(addToDraw(card,clientID))
+            return card;
+        return null;
     }
 
     @Override
@@ -47,18 +67,24 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     @Override
     public boolean validateMove(AbsCard card)throws RemoteException {
-        if(card.isWild())
+        if(card.isWild()){
+            notifyOb(currentClient);
             return true;
+        }
         return validateColor(card) || validateNumber(card);
     }
 
     @Override
     public boolean validateColor(AbsCard card) throws RemoteException {
+        if(topCard == null)
+            return true;
         return card.getColor() == topCard.getColor();
     }
 
     @Override
     public boolean validateNumber(AbsCard card) throws RemoteException {
+        if(topCard == null)
+            return true;
         return card.getNumber() == topCard.getNumber();
     }
 
@@ -66,10 +92,27 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     public AbsCard pushCard(AbsCard card) throws RemoteException {
         if(validateMove(card)) {
             topCard = card;
-            return null;
+            playerCards.remove(currentClient,card);
+            card = null;
+            endTurn();
+            try {
+                applypower(topCard.getPower());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        else{
-            return card;
+        return card;
+    }
+
+    @Override
+    public AbsCard pushHelper(AbsCard absCard, int id) throws RemoteException {
+        if(turnPlayer.getTurn()) {
+            currentClient = id;
+            AbsCard cardAux = pushCard(absCard);
+            notifyObservers();
+            return cardAux;
+        } else {
+            return absCard;
         }
     }
 
@@ -88,17 +131,26 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         Player player = new Player(username,ip);
         players.add(player);
         ++playerID;
+        playersID.put(player, playerID);
         playerCards.put(playerID, new ArrayList<>());
+        turnPlayer = players.get(0);
+        turnPlayer.setTurn(true);
         return playerID;
     }
 
-    private void addToDraw(AbsCard card, int clientID) throws RemoteException{
-        if(!playerCards.containsKey(clientID)) {
-            throw new RemoteException("No existe el usuario");
+    private boolean addToDraw(AbsCard card, int clientID) throws RemoteException{
+        if(turnPlayer.canDraw()) {
+            if (!playerCards.containsKey(clientID)) {
+                throw new RemoteException("No existe el usuario");
+            }
+            ArrayList<AbsCard> draw = playerCards.get(clientID);
+            draw.add(card);
+            playerCards.replace(clientID, draw);
+            turnPlayer.setPlayerDraw(false);
+            return true;
+        } else {
+            return false;
         }
-        ArrayList<AbsCard> draw = playerCards.get(clientID);
-        draw.add(card);
-        playerCards.replace(clientID,draw);
     }
 
     @Override
@@ -120,5 +172,56 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         return topCard;
     }
 
+    @Override
+    public void setSelectedColor(int color) throws RemoteException {
+        topCard = CardFactory.getColorCard(color);
+    }
+
+    @Override
+    public void addObserver(Observer observer) throws RemoteException {
+        observers.add(observer);
+        clientObservers.put(observer.getID(), observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) throws RemoteException{
+        observers.add(observer);
+    }
+
+    @Override
+    public void notifyObservers() throws RemoteException {
+        for (Observer ob: observers) {
+            ob.update();
+        }
+    }
+
+    @Override
+    public void notifyOb(int id) throws RemoteException {
+        Observer o = clientObservers.get(id);
+        clientObservers.get(id).chooseColor();
+    }
+
+    @Override
+    public void notifyDraw(int n, int id) throws RemoteException {
+        clientObservers.get(id).drawCards(n);
+    }
+
+    private void applypower(String power) throws Exception {
+        int turns = 2;
+        if(Objects.equals(power, "Skip")){
+        }else if(Objects.equals(power, "DrawTwo")) {
+            notifyDraw(2,currentClient);
+        }else if(Objects.equals(power, "DrawFour")){
+            notifyDraw(4,currentClient);
+        }else if (Objects.equals(power, "Wild")) {
+            notifyOb(currentClient);
+        }else if(Objects.equals(power, "Reverse")) {
+            turns = 1;
+            Collections.reverse(players);
+        }else{
+            turns = 1;
+        }
+        nextTurn(turns);
+    }
 
 }

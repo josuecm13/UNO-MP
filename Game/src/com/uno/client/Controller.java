@@ -1,8 +1,13 @@
 package com.uno.client;
 
 import com.uno.cards.AbsCard;
+import com.uno.gui.ChooseColorFrame;
+import com.uno.gui.MainLayout;
 import com.uno.interfaces.IServer;
+import com.uno.interfaces.Observer;
 
+import javax.print.attribute.standard.RequestingUserName;
+import javax.swing.*;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.rmi.Naming;
@@ -12,19 +17,29 @@ import java.rmi.RemoteException;
  * Created by ${gaboq} on 21/9/2017.
  */
 
-public class Controller implements Serializable{
+public class Controller implements Serializable, Observer {
 
-    public static String user;
-    public static int clientID;
+    private static String user;
+    private int clientID;
     IServer server;
+    MainLayout view;
 
     public Controller() throws Exception{
         this.server = (IServer) Naming.lookup("//localhost/UNOServer");
     }
 
+    public void setSelectedColor(int color) throws RemoteException {
+        server.setSelectedColor(color);
+    }
+
     public void setUsername(String username) throws Exception{
         user = username;
-        clientID =  server.addPlayer(InetAddress.getLocalHost().getHostAddress().toString(),username, "0");
+        this.clientID =  server.addPlayer(InetAddress.getLocalHost().getHostAddress().toString(),username, "0");
+    }
+
+    public void setObserver (MainLayout view) throws RemoteException {
+        this.view = view;
+        server.addObserver(this);
     }
 
     public AbsCard getCard() throws Exception {
@@ -50,6 +65,7 @@ public class Controller implements Serializable{
         } else {
             card = getTopCard();
         }
+        System.out.println(card.getNumber() + " pene " + card.getColor());
         return card;
     }
 
@@ -58,16 +74,43 @@ public class Controller implements Serializable{
     }
 
     public AbsCard pushCard(AbsCard card) throws RemoteException {
-        return server.pushCard(card);
+        return server.pushHelper(card, clientID);
     }
 
-    /*
-    public static void main(String[] args) throws Exception {
-        IServer server =(IServer) Naming.lookup("//localhost/UNOServer");
-        int opt;
-        user = Gui.input("log in", "ingrese un nombre de usuario:");
-        clientID = server.addPlayer(InetAddress.getLocalHost().getHostAddress().toString(),user, "0");
+    @Override
+    public void update() throws RemoteException {
+        try {
+            view.setTopCard();
+            SwingUtilities.updateComponentTreeUI(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    */
+
+    @Override
+    public int getID() throws RemoteException{
+        return this.clientID;
+    }
+
+    @Override
+    public void drawCards(int n) throws RemoteException {
+        for (int i = 0; i < n; i++) {
+            try {
+                view.drawCard(view);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void chooseColor() throws RemoteException {
+        try {
+            ChooseColorFrame frame = new ChooseColorFrame(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

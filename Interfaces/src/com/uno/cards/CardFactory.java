@@ -4,12 +4,14 @@ package com.uno.cards;
 import com.uno.cards.number.NumberCard;
 import com.uno.cards.special.SpecialCard;
 
+import java.io.Serializable;
+
 /**
  * Created by ${gaboq} on 21/9/2017.
  */
 
 
-public class CardFactory {
+public class CardFactory implements Serializable{
 
     public static int generateRandom(int n){
         return (int) (Math.random() * (n+1));
@@ -33,6 +35,10 @@ public class CardFactory {
         }
         setCardProperties(card);
         return card;
+    }
+
+    public static AbsCard getColorCard(int color) {
+        return new NumberCard(color);
     }
 
 }

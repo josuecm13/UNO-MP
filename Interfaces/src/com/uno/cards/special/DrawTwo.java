@@ -7,6 +7,7 @@ package com.uno.cards.special;
 public class DrawTwo extends SpecialCard {
 
     public DrawTwo() {
+        number = 12;
         power = "DrawTwo";
     }
 
