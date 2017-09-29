@@ -3,7 +3,6 @@ package com.uno.gui;
 
 import com.uno.cards.AbsCard;
 import com.uno.client.Controller;
-import com.uno.interfaces.Observer;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -25,11 +24,14 @@ public class MainLayout extends GameView {
     private JLabel lbl = new JLabel();
     private JButton drawButton;
     private JButton btn;
+    private JButton passBtn;
 
     private ImageIcon backCard = new ImageIcon("res/back.png");
     private ImageIcon UNObtn = new ImageIcon("res/botnUNO.png");
     private ImageIcon orientImgInv = new ImageIcon("res/rotateImgInv.png");
     private ImageIcon orientImg = new ImageIcon("res/rotateImg.png");
+    private ImageIcon passImg = new ImageIcon("res/pass.png");
+
 
     //============================================================== constructor
     public MainLayout(String username) throws Exception{
@@ -96,10 +98,20 @@ public class MainLayout extends GameView {
         });
     }
 
+    private void setPassButton(JFrame frame) {
+        passBtn = new JButton("");
+        ImageIcon img = new ImageIcon(getScaledImage(passImg.getImage(), 200, 200));
+        setButtonProps(passBtn, img);
+        passBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+    }
+
     public AbsCard sendCard(AbsCard card) throws RemoteException {
         return controller.pushCard(card);
     }
-
 
     public void setTopCard() throws Exception {
         AbsCard card = controller.setTopCard();
@@ -114,15 +126,22 @@ public class MainLayout extends GameView {
         window.setLayout(new GridBagLayout());
         setDrawButton(window);
         setUNOButton(window);
+        setPassButton(window);
         setTopCard();
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx=1;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        window.add(drawButton, gbc);
+        window.add(passBtn, gbc);
         gbc.gridx = 1;
         gbc.gridy = 0;
-        window.add(btn, gbc);
+        window.add(drawButton, gbc);
         gbc.gridx = 2;
+        gbc.gridy = 0;
+        window.add(btn, gbc);
+        gbc.gridx = 3;
         gbc.gridy = 0;
         window.add(lbl, gbc);
     }

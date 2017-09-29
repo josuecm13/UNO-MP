@@ -13,4 +13,6 @@ public interface IClient extends Serializable {
 
     AbsCard generateCard(int userID) throws Exception;
 
+    void nextTurn(int turn);
+
 }

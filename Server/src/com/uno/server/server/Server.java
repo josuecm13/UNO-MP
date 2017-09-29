@@ -36,13 +36,15 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     private void nextTurn(int turn) {
         int index = players.indexOf(turnPlayer);
+
         if(index + turn < players.size())
             turnPlayer = players.get(index + turn);
         else {
-            index = index + turn % players.size();
+            index = (index + turn) % players.size();
             turnPlayer = players.get(index);
         }
         currentClient = playersID.get(turnPlayer);
+        System.out.println(turnPlayer.getPlayer());
         turnPlayer.setTurn(true);
     }
 
