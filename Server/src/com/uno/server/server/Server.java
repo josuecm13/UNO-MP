@@ -100,7 +100,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
             card = null;
             endTurn();
             try {
-                applypower(topCard.getPower());
+                applyPower(topCard.getPower());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -216,15 +216,13 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         clientObservers.get(id).drawCards(n);
     }
 
-    private void applypower(String power) throws Exception {
+    private void applyPower(String power) throws Exception {
         int turns = 2;
         if(Objects.equals(power, "Skip")){
         }else if(Objects.equals(power, "DrawTwo")) {
             notifyDraw(2,currentClient);
         }else if(Objects.equals(power, "DrawFour")){
             notifyDraw(4,currentClient);
-        }else if (Objects.equals(power, "Wild")) {
-            //notifyOb(currentClient);
         }else if(Objects.equals(power, "Reverse")) {
             turns = 1;
             Collections.reverse(players);

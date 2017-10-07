@@ -168,10 +168,10 @@ public class MainLayout extends GameView {
                 try {
                     view.setTopCard();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    //ignore
                 }
                 try {
-                    Thread.sleep(1*100);
+                    Thread.sleep(1*1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

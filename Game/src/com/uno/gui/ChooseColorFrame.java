@@ -15,6 +15,7 @@ public class ChooseColorFrame extends GameView{
     private JButton btnGreen;
     private JButton btnYellow;
     private JButton bntBlue;
+    private JButton OKButton;
     private Controller c;
 
 
@@ -43,27 +44,24 @@ public class ChooseColorFrame extends GameView{
                 }
             }
         });
-        btnYellow.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    c.setSelectedColor(2);
-                } catch (RemoteException e1) {
-                    e1.printStackTrace();
-                }
+        btnYellow.addActionListener(e -> {
+            try {
+                c.setSelectedColor(2);
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
             }
         });
-        bntBlue.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    c.setSelectedColor(3);
-                } catch (RemoteException e1) {
-                    e1.printStackTrace();
-                }
+        bntBlue.addActionListener(e -> {
+            try {
+                c.setSelectedColor(3);
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
             }
         });
         setVisible(true);
+        OKButton.addActionListener(actionEvent -> {
+            dispose();
+        });
     }
 
     @Override
