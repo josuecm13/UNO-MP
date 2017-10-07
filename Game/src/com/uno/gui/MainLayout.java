@@ -45,6 +45,8 @@ public class MainLayout extends GameView {
         controller.setObserver(this);
         window.pack();
         window.setVisible(true);
+        Thread thread = new Thread(new GameUpdater(this));
+        thread.start();
     }
 
 
@@ -144,6 +146,32 @@ public class MainLayout extends GameView {
         gbc.gridx = 3;
         gbc.gridy = 0;
         window.add(lbl, gbc);
+    }
+
+
+    private class GameUpdater implements Runnable{
+
+        MainLayout view;
+
+        GameUpdater(MainLayout view){
+            this.view = view;
+        }
+
+        @Override
+        public void run() {
+            while(true){
+                try {
+                    view.setTopCard();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Thread.sleep(9*100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 
