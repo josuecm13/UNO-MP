@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  * Created by ${gaboq} on 21/9/2017.
@@ -25,12 +27,23 @@ public class Controller implements Serializable, Observer {
     MainLayout view;
 
     public Controller() throws Exception{
+        //Registry registry = LocateRegistry.getRegistry("localhost",7777);
+        //this.server = (IServer) registry.lookup("UNOServer");
         this.server = (IServer) Naming.lookup("//localhost/UNOServer");
     }
 
     public void setSelectedColor(int color) throws RemoteException {
         server.setSelectedColor(color);
     }
+
+    public void removeClient() throws RemoteException {
+        try {
+            server.removeObserver(this);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void setUsername(String username) throws Exception{
         user = username;
@@ -65,7 +78,6 @@ public class Controller implements Serializable, Observer {
         } else {
             card = getTopCard();
         }
-        System.out.println(card.getNumber() + " pene " + card.getColor());
         return card;
     }
 

@@ -46,6 +46,7 @@ public class MainLayout extends GameView {
         window.pack();
         window.setVisible(true);
         Thread thread = new Thread(new GameUpdater(this));
+        super.setLayout(this);
         thread.start();
     }
 
@@ -69,6 +70,10 @@ public class MainLayout extends GameView {
             placeDeck(hand);
             frame.repaint();
         }
+    }
+
+    public void closeApp() throws RemoteException {
+        controller.removeClient();
     }
 
     private void setDrawButton(JFrame frame) {
@@ -166,7 +171,7 @@ public class MainLayout extends GameView {
                     e.printStackTrace();
                 }
                 try {
-                    Thread.sleep(9*100);
+                    Thread.sleep(1*100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

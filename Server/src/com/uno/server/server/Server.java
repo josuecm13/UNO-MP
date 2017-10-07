@@ -18,6 +18,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     private Map<Integer, ArrayList<AbsCard>> playerCards;
     private Map<Integer, Observer> clientObservers;
     private Map<Player, Integer> playersID;
+    private Map<Integer, Player> idPlayers;
     private AbsCard topCard;
     private static final long serialVersionUID = 1L;
     private int playerID = new Random().nextInt();
@@ -29,6 +30,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         playerCards = new HashMap<>();
         observers = new ArrayList<>();
         playersID = new HashMap<>();
+        idPlayers = new HashMap<>();
         clientObservers = new HashMap<>();
         topCard = getCard();
         //turnPlayer = players.get(0);
@@ -44,7 +46,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
             turnPlayer = players.get(index);
         }
         currentClient = playersID.get(turnPlayer);
-        System.out.println(turnPlayer.getPlayer());
+        //System.out.println(turnPlayer.getPlayer());
         turnPlayer.setTurn(true);
     }
 
@@ -111,7 +113,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         if(turnPlayer.getTurn()) {
             currentClient = id;
             AbsCard cardAux = pushCard(absCard);
-            notifyObservers();
+            //notifyObservers();
             return cardAux;
         } else {
             return absCard;
@@ -134,6 +136,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         players.add(player);
         ++playerID;
         playersID.put(player, playerID);
+        idPlayers.put(playerID,player);
         playerCards.put(playerID, new ArrayList<>());
         turnPlayer = players.get(0);
         turnPlayer.setTurn(true);
@@ -187,7 +190,11 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     @Override
     public void removeObserver(Observer observer) throws RemoteException{
-        observers.add(observer);
+        Player p = idPlayers.remove(observer.getID());
+        playersID.remove(p);
+        players.remove(p);
+        playerCards.remove(observer.getID());
+        observers.remove(observer);
     }
 
     @Override
@@ -197,10 +204,11 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         }
     }
 
+
     @Override
     public void notifyOb(int id) throws RemoteException {
         Observer o = clientObservers.get(id);
-        clientObservers.get(id).chooseColor();
+        o.chooseColor();
     }
 
     @Override
@@ -216,7 +224,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         }else if(Objects.equals(power, "DrawFour")){
             notifyDraw(4,currentClient);
         }else if (Objects.equals(power, "Wild")) {
-            notifyOb(currentClient);
+            //notifyOb(currentClient);
         }else if(Objects.equals(power, "Reverse")) {
             turns = 1;
             Collections.reverse(players);

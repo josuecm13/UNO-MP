@@ -2,6 +2,7 @@ package com.uno.gui;
 
 
 import com.uno.cards.AbsCard;
+import com.uno.client.Controller;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 import static com.uno.gui.CardManager.setCardImage;
 
@@ -18,6 +20,8 @@ import static com.uno.gui.CardManager.setCardImage;
  */
 
 public abstract class GameView extends JFrame implements Serializable {
+
+    private MainLayout layout;
 
 
     public static ImageIcon generateCardIcon(AbsCard card) {
@@ -57,8 +61,16 @@ public abstract class GameView extends JFrame implements Serializable {
         window.setResizable(false);
         window.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
-                if (JOptionPane.showConfirmDialog(window, "Desea cerrar la aplicacion?", "Cerrar programa", JOptionPane.YES_NO_OPTION,
+                if (JOptionPane.showConfirmDialog(window, "Desea cerrar la aplicacion?",
+                        "Cerrar programa", JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                    if(layout != null){
+                        try {
+                            layout.closeApp();
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     System.exit(0);
                 }
             }
@@ -69,6 +81,10 @@ public abstract class GameView extends JFrame implements Serializable {
 
     protected abstract void setComponents(JFrame window) throws Exception;
 
+
+    public void setLayout(MainLayout layout){
+        this.layout = layout;
+    }
 
     //===================== Main ========================
     public static void main(String[] args) throws Exception {

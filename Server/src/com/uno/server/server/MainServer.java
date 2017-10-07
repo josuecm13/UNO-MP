@@ -9,12 +9,14 @@ import com.uno.interfaces.Observer;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  * Created by ${gaboq} on 21/9/2017.
  */
 
-public class MainServer{ // implements Observer{
+public class MainServer{
 
     IServer server;
 
@@ -22,7 +24,7 @@ public class MainServer{ // implements Observer{
         Utils.setCodeBase(IServer.class);
         this.server = new Server();
         Naming.rebind("UNOServer", server);
-        //server.addObserver(this);
+
         int opt;
         do{
             opt = Gui.menu("SERVER UNO",new String[]{"Get Players","Salir"});
@@ -34,25 +36,11 @@ public class MainServer{ // implements Observer{
         }while (opt != 1);
     }
 
-    //@Override
-    public void update() throws RemoteException {
-        System.out.println(server.getTopCard().getNumber());
+    private void createRegistry(int i,IServer server) throws RemoteException {
+        Registry registry = LocateRegistry.createRegistry(7777);
+        registry.rebind("UNOServer",server);
     }
 
-    //@Override
-    public int getID() throws RemoteException {
-        return 0;
-    }
-
-    //@Override
-    public void drawCards(int i) throws RemoteException {
-        System.out.println("jeje");
-    }
-
-    //@Override
-    public void chooseColor() throws RemoteException {
-
-    }
 
     public static void main(String[] args) throws MalformedURLException, RemoteException {
         new MainServer();
