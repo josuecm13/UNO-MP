@@ -17,7 +17,10 @@ public class LobbyLayout extends GameView {
 
     private ImageIcon logoImg = new ImageIcon("res/uno_icon.png");
     JTable table;
+    Font gameFont;
     JScrollPane pane;
+    JButton updateButton;
+    JButton startGameButton;
     Controller controller;
 
     public LobbyLayout(String username) throws Exception {
@@ -27,6 +30,7 @@ public class LobbyLayout extends GameView {
         setComponents(frame);
         frame.getContentPane().setBackground(Color.decode("#CC0000"));
         frame.pack();
+        controller.setLobby(this);
         frame.setVisible(true);
     }
 
@@ -45,23 +49,71 @@ public class LobbyLayout extends GameView {
     private void setTable(){
         table = new JTable();
         Object[] columns = {"Usernames", "IP"};
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         model.setColumnIdentifiers(columns);
         table.setModel(model);
         table.setBackground(Color.decode("#CC0000"));
         table.setForeground(Color.yellow);
-        Font font = new Font("",1,22);
-        table.setFont(font);
+        gameFont = new Font("Lucida Sans",1,22);
+        table.setFont(gameFont);
         table.setRowHeight(30);
+        table.setShowVerticalLines(false);
         pane = new JScrollPane(table);
-        pane.setBounds(0, 0, 880, 700);
+        pane.getViewport().setBackground(Color.decode("#CC0000"));
+        pane.setBounds(10, 10, 880, 700);
+    }
+
+    private void setUpdateButton(){
+        updateButton = new JButton("Update");
+        updateButton.setFont(gameFont);
+        updateButton.setBorderPainted(false);
+        updateButton.setBounds(950, 220, 180, 60);
+        updateButton.addActionListener(e ->{
+            try {
+                addRowToTable();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+        });
+    }
+
+    private void setStartGameButton(){
+        startGameButton = new JButton("Start Game");
+        startGameButton.setFont(gameFont);
+        startGameButton.setBorderPainted(false);
+        startGameButton.setBounds(950, 100, 180, 60);
+        startGameButton.addActionListener(e ->{
+            try {
+                //start game
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
+    }
+
+    private void setButton(JButton button,String label,
+                           int px, int py, int width, int height){
+        button = new JButton(label);
+        button.setFont(gameFont);
+        button.setBorderPainted(false);
+        button.setBounds(px,py,width,height);
     }
 
     @Override
     protected void setComponents(JFrame window) throws Exception {
         window.setLayout(null);
         setTable();
+        setUpdateButton();
+        setStartGameButton();
         window.add(pane);
+        window.add(updateButton);
+        window.add(startGameButton);
         addRowToTable();
     }
+
 }

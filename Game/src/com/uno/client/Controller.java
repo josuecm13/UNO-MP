@@ -2,6 +2,7 @@ package com.uno.client;
 
 import com.uno.cards.AbsCard;
 import com.uno.gui.ChooseColorFrame;
+import com.uno.gui.LobbyLayout;
 import com.uno.gui.MainLayout;
 import com.uno.interfaces.IServer;
 import com.uno.interfaces.Observer;
@@ -29,6 +30,7 @@ public class Controller implements Serializable, Observer {
     private int clientID;
     IServer server;
     MainLayout view;
+    LobbyLayout lobby;
 
     private Controller() throws Exception{
         this.server = (IServer) Naming.lookup("//localhost/UNOServer");
@@ -50,6 +52,10 @@ public class Controller implements Serializable, Observer {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setLobby(LobbyLayout lobby){
+        this.lobby = lobby;
     }
 
 
@@ -104,8 +110,7 @@ public class Controller implements Serializable, Observer {
     @Override
     public void update() throws RemoteException {
         try {
-            view.setTopCard();
-            SwingUtilities.updateComponentTreeUI(view);
+            lobby.addRowToTable();
         } catch (Exception e) {
             e.printStackTrace();
         }

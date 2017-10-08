@@ -182,6 +182,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     public void addObserver(Observer observer) throws RemoteException {
         observers.add(observer);
         clientObservers.put(observer.getID(), observer);
+        notifyObservers();
     }
 
     @Override
@@ -191,6 +192,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         players.remove(p);
         playerCards.remove(observer.getID());
         observers.remove(observer);
+        notifyObservers();
     }
 
     @Override
@@ -199,7 +201,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
             ob.update();
         }
     }
-
 
     @Override
     public void notifyOb(int id) throws RemoteException {

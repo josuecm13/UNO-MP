@@ -33,15 +33,13 @@ public class LoginLayout extends GameView {
         go = new JButton("");
         ImageIcon img = new ImageIcon(getScaledImage(goImg.getImage(), 249, 249));
         setButtonProps(go, img);
-        go.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    setVisible(false);
-                    new LobbyLayout(nameField.getText());
-                    //new MainLayout(nameField.getText());
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+        go.addActionListener(e -> {
+            try {
+                setVisible(false);
+                new LobbyLayout(nameField.getText());
+                //new MainLayout(nameField.getText());
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         });
     }
