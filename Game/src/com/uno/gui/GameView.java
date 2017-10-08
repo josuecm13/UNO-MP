@@ -21,7 +21,6 @@ import static com.uno.gui.CardManager.setCardImage;
 
 public abstract class GameView extends JFrame implements Serializable {
 
-    private MainLayout layout;
 
 
     public static ImageIcon generateCardIcon(AbsCard card) {
@@ -64,12 +63,16 @@ public abstract class GameView extends JFrame implements Serializable {
                 if (JOptionPane.showConfirmDialog(window, "Desea cerrar la aplicacion?",
                         "Cerrar programa", JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                    if(layout != null){
-                        try {
-                            layout.closeApp();
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
+                    try {
+                        if(Controller.getInstance() != null){
+                            try {
+                                Controller.getInstance().removeClient();
+                            } catch (RemoteException e) {
+                                System.out.println("controller nulo");;
+                            }
                         }
+                    } catch (Exception e) {
+                        //ignore
                     }
                     System.exit(0);
                 }
@@ -81,10 +84,6 @@ public abstract class GameView extends JFrame implements Serializable {
 
     protected abstract void setComponents(JFrame window) throws Exception;
 
-
-    public void setLayout(MainLayout layout){
-        this.layout = layout;
-    }
 
     //===================== Main ========================
     public static void main(String[] args) throws Exception {

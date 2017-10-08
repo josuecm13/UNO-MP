@@ -34,9 +34,8 @@ public class MainLayout extends GameView {
 
 
     //============================================================== constructor
-    public MainLayout(String username) throws Exception{
-        this.controller = new Controller();
-        controller.setUsername(username);
+    public MainLayout() throws Exception{
+        controller = Controller.getInstance();
         generateDeck(7);
         this.cardManager = new CardManager(hand);
         JFrame window = initFrame("UNO");
@@ -46,7 +45,6 @@ public class MainLayout extends GameView {
         window.pack();
         window.setVisible(true);
         Thread thread = new Thread(new GameUpdater(this));
-        super.setLayout(this);
         thread.start();
     }
 
@@ -70,10 +68,6 @@ public class MainLayout extends GameView {
             placeDeck(hand);
             frame.repaint();
         }
-    }
-
-    public void closeApp() throws RemoteException {
-        controller.removeClient();
     }
 
     private void setDrawButton(JFrame frame) {
@@ -171,7 +165,7 @@ public class MainLayout extends GameView {
                     //ignore
                 }
                 try {
-                    Thread.sleep(1*1000);
+                    Thread.sleep(1*100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

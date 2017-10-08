@@ -5,6 +5,8 @@ import com.uno.gui.ChooseColorFrame;
 import com.uno.gui.MainLayout;
 import com.uno.interfaces.IServer;
 import com.uno.interfaces.Observer;
+import com.uno.players.Player;
+import org.jetbrains.annotations.Contract;
 
 import javax.print.attribute.standard.RequestingUserName;
 import javax.swing.*;
@@ -14,6 +16,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 
 /**
  * Created by ${gaboq} on 21/9/2017.
@@ -22,14 +25,19 @@ import java.rmi.registry.Registry;
 public class Controller implements Serializable, Observer {
 
     private static String user;
+    public static Controller instance;
     private int clientID;
     IServer server;
     MainLayout view;
 
-    public Controller() throws Exception{
-        //Registry registry = LocateRegistry.getRegistry("localhost",7777);
-        //this.server = (IServer) registry.lookup("UNOServer");
+    private Controller() throws Exception{
         this.server = (IServer) Naming.lookup("//localhost/UNOServer");
+    }
+
+    public static Controller getInstance() throws Exception {
+        if(instance == null)
+            instance = new Controller();
+        return instance;
     }
 
     public void setSelectedColor(int color) throws RemoteException {
@@ -53,6 +61,10 @@ public class Controller implements Serializable, Observer {
     public void setObserver (MainLayout view) throws RemoteException {
         this.view = view;
         server.addObserver(this);
+    }
+
+    public ArrayList<Player> getPlayers() throws RemoteException {
+        return (ArrayList<Player>) server.getPlayers();
     }
 
     public AbsCard getCard() throws Exception {

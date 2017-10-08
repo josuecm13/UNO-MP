@@ -1,4 +1,4 @@
-package com.uno.server.server;
+package com.uno.server;
 
 /**
  * Created by ${gaboq} on 21/9/2017.

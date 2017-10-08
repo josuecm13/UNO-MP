@@ -1,10 +1,10 @@
-package com.uno.server.server;
+package com.uno.server;
 
 import com.uno.cards.AbsCard;
 import com.uno.cards.CardFactory;
 import com.uno.interfaces.IServer;
 import com.uno.interfaces.Observer;
-import com.uno.server.players.Player;
+import com.uno.players.Player;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -122,12 +122,8 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     //IServer
     @Override
-    public String getPlayers() throws RemoteException {
-        String playerString = "";
-        for (Player p: players) {
-            playerString += p.getPlayer() +"\n";
-        }
-        return playerString;
+    public ArrayList<Player> getPlayers() throws RemoteException {
+        return players;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.uno.server.players;
+package com.uno.players;
 
 import java.io.Serializable;
 
@@ -8,19 +8,27 @@ import java.io.Serializable;
 public class Player implements Serializable {
 
     String ip;
-    String usuario;
+    String user;
     int cards;
     boolean turn;
     boolean canDraw;
 
     public Player(String username, String ip){
         this.ip = ip;
-        usuario = username;
+        user = username;
         canDraw = true;
     }
 
+    public String getIp() {
+        return ip;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
     public  String getPlayer(){
-        return "Username: " + usuario + "\n" + "        Ip: " + ip;
+        return "Username: " + user + "\n" + "        Ip: " + ip;
     }
 
     public boolean getTurn() {

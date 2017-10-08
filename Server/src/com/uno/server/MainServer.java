@@ -1,10 +1,7 @@
-package com.uno.server.server;
+package com.uno.server;
 
-import com.uno.cards.AbsCard;
-import com.uno.gui.MainLayout;
 import com.uno.interfaces.Gui;
 import com.uno.interfaces.IServer;
-import com.uno.interfaces.Observer;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

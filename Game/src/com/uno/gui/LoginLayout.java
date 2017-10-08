@@ -37,7 +37,8 @@ public class LoginLayout extends GameView {
             public void actionPerformed(ActionEvent e) {
                 try {
                     setVisible(false);
-                    new MainLayout(nameField.getText());
+                    new LobbyLayout(nameField.getText());
+                    //new MainLayout(nameField.getText());
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
