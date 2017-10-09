@@ -50,7 +50,7 @@ public class MainLayout extends GameView {
 
 
     private void generateDeck(int cardNumb) throws Exception {
-        for (int face=0; face < cardNumb; face++) {
+         for (int face=0; face < cardNumb; face++) {
             AbsCard card = controller.getCard();
             ImageIcon img = generateCardIcon(card);
             CardGUI cardGUI = new CardGUI(img, card);
