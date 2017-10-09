@@ -24,6 +24,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     private int playerID = new Random().nextInt();
     private int currentClient;
     private Player turnPlayer;
+    private boolean isReady = false;
 
     protected Server() throws RemoteException {
         players = new ArrayList<>();
@@ -54,7 +55,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         turnPlayer.setTurn(false);
     }
 
-
     //ICard
     @Override
     public AbsCard generateCard(int clientID) throws Exception {
@@ -62,6 +62,11 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         if(addToDraw(card,clientID))
             return card;
         return null;
+    }
+
+    @Override
+    public Boolean canDraw() throws RemoteException {
+        return isReady;
     }
 
     @Override
@@ -130,6 +135,9 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     public int addPlayer(String ip, String username, String password) throws RemoteException {
         Player player = new Player(username,ip);
         players.add(player);
+        if (players.size() == 2){
+            isReady = true;
+        }
         ++playerID;
         playersID.put(player, playerID);
         idPlayers.put(playerID,player);

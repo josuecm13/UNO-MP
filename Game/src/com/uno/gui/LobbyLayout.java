@@ -36,6 +36,7 @@ public class LobbyLayout extends GameView {
 
     public void addRowToTable() throws RemoteException {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
+        deleteAllRows(model);
         ArrayList<Player> players = controller.getPlayers();
         Object rowInfo[] = new Object[2];
         for (int i = 0; i < players.size(); i++) {
@@ -89,19 +90,21 @@ public class LobbyLayout extends GameView {
         startGameButton.setBounds(950, 100, 180, 60);
         startGameButton.addActionListener(e ->{
             try {
-                //start game
+                controller.startGame();
             } catch (Exception e1) {
-                e1.printStackTrace();
+
             }
         });
     }
 
-    private void setButton(JButton button,String label,
-                           int px, int py, int width, int height){
-        button = new JButton(label);
-        button.setFont(gameFont);
-        button.setBorderPainted(false);
-        button.setBounds(px,py,width,height);
+    public void startGame() throws Exception {
+        new MainLayout();
+    }
+
+    public void deleteAllRows(DefaultTableModel model) {
+        for( int i = model.getRowCount() - 1; i >= 0; i-- ) {
+            model.removeRow(i);
+        }
     }
 
     @Override

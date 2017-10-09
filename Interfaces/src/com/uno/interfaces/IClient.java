@@ -13,5 +13,6 @@ public interface IClient extends Serializable {
 
     AbsCard generateCard(int userID) throws Exception;
 
+    Boolean canDraw() throws RemoteException;
 
 }

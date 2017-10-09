@@ -54,6 +54,16 @@ public class Controller implements Serializable, Observer {
         }
     }
 
+    public void startGame() throws Exception {
+        if(server.canDraw()){
+            lobby.startGame();
+        }else{
+            JOptionPane.showMessageDialog(null, "Jugadores incompletos: "+"\nEspere más jugadores " +
+                            "parar iniciar la partida."
+                    ,"Error al iniciar", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void setLobby(LobbyLayout lobby){
         this.lobby = lobby;
     }
