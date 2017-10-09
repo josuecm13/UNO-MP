@@ -44,6 +44,19 @@ public class CircularLinkedList {
         return null;
     }
 
+    public Player get(int index){
+        if(!(index > length || firstNode == null)){
+            Node tmp = firstNode;
+            int i;
+            for(i = 0; i < index && tmp != null; i++ ){
+                tmp= tmp.next;
+            }if(i == index){
+                return tmp.data;
+            }
+        }
+        return null;
+    }
+
     public Node getFirstNode() {
         return firstNode;
     }

@@ -57,7 +57,7 @@ public class CircularLinkedListTest {
         for (int i = 0; i < 70; i++) {
             list.insert(player);
         }
-        Assert.assertEquals(list.length,70);
+        Assert.assertEquals(list.getLength(),70);
     }
 
 
