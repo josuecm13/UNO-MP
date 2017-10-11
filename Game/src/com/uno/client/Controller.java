@@ -145,7 +145,7 @@ public class Controller implements Serializable, Observer {
     @Override
     public void chooseColor() throws RemoteException {
         try {
-            ChooseColorFrame frame = new ChooseColorFrame(this);
+            ChooseColorFrame frame = new ChooseColorFrame();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -16,12 +16,12 @@ import java.util.ArrayList;
 public class LobbyLayout extends GameView {
 
     private ImageIcon logoImg = new ImageIcon("res/uno_icon.png");
-    JTable table;
-    Font gameFont;
-    JScrollPane pane;
-    JButton updateButton;
-    JButton startGameButton;
-    Controller controller;
+    private JTable table;
+    private Font gameFont;
+    private JScrollPane pane;
+    private JButton updateButton;
+    private JButton startGameButton;
+    private Controller controller;
 
     public LobbyLayout(String username) throws Exception {
         this.controller = Controller.getInstance();

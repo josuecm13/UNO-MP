@@ -17,8 +17,7 @@ public class CardFactory implements Serializable{
         return (int) (Math.random() * (n+1));
     }
 
-
-    public static void setCardProperties(AbsCard card){
+    private static void setCardProperties(AbsCard card){
         card.setColor(generateRandom(3));
         if(!card.isSpecial()) {
             card.setNumber(generateRandom(9));

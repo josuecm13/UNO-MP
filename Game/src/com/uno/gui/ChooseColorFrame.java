@@ -16,12 +16,11 @@ public class ChooseColorFrame extends GameView{
     private JButton btnYellow;
     private JButton bntBlue;
     private JButton OKButton;
-    private Controller c;
 
 
-    public ChooseColorFrame(Controller controller) throws Exception {
+    public ChooseColorFrame() throws Exception {
 
-        c = controller;
+        c = Controller.getInstance();
         setComponents(this);
 
         btnRed.addActionListener(new ActionListener() {
