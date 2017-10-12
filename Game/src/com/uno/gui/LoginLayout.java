@@ -26,6 +26,7 @@ public class LoginLayout extends GameView {
         frame.getContentPane().setBackground(Color.decode("#CC0000"));
         frame.pack();
         frame.setVisible(true);
+        instance =  frame;
     }
 
 
@@ -35,9 +36,8 @@ public class LoginLayout extends GameView {
         setButtonProps(go, img);
         go.addActionListener(e -> {
             try {
-                setVisible(false);
                 new LobbyLayout(nameField.getText());
-                //new MainLayout(nameField.getText());
+                instance.dispose();
             } catch (Exception e1) {
                 e1.printStackTrace();
             }

@@ -47,7 +47,6 @@ public class CardManager extends JComponent implements MouseListener, Serializab
     }
 
 
-
     public void setLayout(MainLayout layout){
         this.layout = layout;
     }

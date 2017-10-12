@@ -21,7 +21,7 @@ import static com.uno.gui.CardManager.setCardImage;
 
 public abstract class GameView extends JFrame implements Serializable {
 
-
+    protected JFrame instance;
 
     public static ImageIcon generateCardIcon(AbsCard card) {
         ImageIcon img = new ImageIcon(setCardImage(card));

@@ -34,12 +34,11 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         idPlayers = new HashMap<>();
         clientObservers = new HashMap<>();
         topCard = getCard();
-        //turnPlayer = players.get(0);
     }
 
     private void nextTurn(int turn) {
         int index = players.indexOf(turnPlayer);
-
+        turnPlayer.setTurn(false);
         if(index + turn < players.size())
             turnPlayer = players.get(index + turn);
         else {
@@ -47,7 +46,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
             turnPlayer = players.get(index);
         }
         currentClient = playersID.get(turnPlayer);
-        //System.out.println(turnPlayer.getPlayer());
         turnPlayer.setTurn(true);
     }
 
@@ -59,8 +57,10 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     @Override
     public AbsCard generateCard(int clientID) throws Exception {
         AbsCard card = CardFactory.getCard();
-        if(addToDraw(card,clientID))
+        if(addToDraw(card,clientID)) {
+            nextTurn(1);
             return card;
+        }
         return null;
     }
 
@@ -115,10 +115,11 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     @Override
     public AbsCard pushHelper(AbsCard absCard, int id) throws RemoteException {
-        if(turnPlayer.getTurn()) {
+        if(turnPlayer.getTurn() & turnPlayer == idPlayers.get(id)) {
             currentClient = id;
             AbsCard cardAux = pushCard(absCard);
             //notifyObservers();
+            nextTurn(1);
             return cardAux;
         } else {
             return absCard;
@@ -148,7 +149,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     }
 
     private boolean addToDraw(AbsCard card, int clientID) throws RemoteException{
-        if(turnPlayer.canDraw()) {
+        if(turnPlayer.getTurn() & turnPlayer == idPlayers.get(clientID)) {
             if (!playerCards.containsKey(clientID)) {
                 throw new RemoteException("No existe el usuario");
             }

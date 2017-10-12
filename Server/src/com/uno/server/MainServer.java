@@ -8,6 +8,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  * Created by ${gaboq} on 21/9/2017.
@@ -21,7 +22,7 @@ public class MainServer{
         Utils.setCodeBase(IServer.class);
         this.server = new Server();
         Naming.rebind("UNOServer", server);
-
+        //createRegistry(7777, server);
         int opt;
         do{
             opt = Gui.menu("SERVER UNO",new String[]{"Get Players","Salir"});
@@ -35,7 +36,7 @@ public class MainServer{
 
     private void createRegistry(int i,IServer server) throws RemoteException {
         Registry registry = LocateRegistry.createRegistry(7777);
-        registry.rebind("UNOServer",server);
+        //registry.rebind("UNOServer",server);
     }
 
 

@@ -20,7 +20,7 @@ public class ChooseColorFrame extends GameView{
 
     public ChooseColorFrame() throws Exception {
 
-        c = Controller.getInstance();
+        Controller c = Controller.getInstance();
         setComponents(this);
 
         btnRed.addActionListener(new ActionListener() {

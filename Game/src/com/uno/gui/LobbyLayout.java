@@ -15,7 +15,6 @@ import java.util.ArrayList;
  */
 public class LobbyLayout extends GameView {
 
-    private ImageIcon logoImg = new ImageIcon("res/uno_icon.png");
     private JTable table;
     private Font gameFont;
     private JScrollPane pane;
@@ -32,6 +31,7 @@ public class LobbyLayout extends GameView {
         frame.pack();
         controller.setLobby(this);
         frame.setVisible(true);
+        instance = frame;
     }
 
     public void addRowToTable() throws RemoteException {
@@ -91,6 +91,7 @@ public class LobbyLayout extends GameView {
         startGameButton.addActionListener(e ->{
             try {
                 controller.startGame();
+                instance.dispose();
             } catch (Exception e1) {
 
             }
