@@ -7,6 +7,10 @@ package com.uno.cards.special;
 public class DrawFour extends WildCard {
     public DrawFour() {
         super();
-        power = "DrawFour";
+    }
+
+    @Override
+    public String toString() {
+        return "DrawFour";
     }
 }

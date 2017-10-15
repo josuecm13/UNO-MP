@@ -62,7 +62,7 @@ public class CardManager extends JComponent implements MouseListener, Serializab
         if(!card.isSpecial()) {
             cardStr = setImageNumber(card) + colors[color];
         } else {
-            cardStr = card.getPower() + colors[color];
+            cardStr = card.toString() + colors[color];
         }
         return "res/" + cardStr + ".png";
     }

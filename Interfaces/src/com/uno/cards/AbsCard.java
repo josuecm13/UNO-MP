@@ -12,8 +12,6 @@ public abstract class AbsCard implements Serializable{
 
     protected int color;
 
-    protected String power;
-
     public void setNumber(int number) {
         this.number = number;
     }
@@ -28,10 +26,6 @@ public abstract class AbsCard implements Serializable{
 
     public int getColor() {
         return color;
-    }
-
-    public String getPower() {
-        return power;
     }
 
     public boolean isSpecial() {

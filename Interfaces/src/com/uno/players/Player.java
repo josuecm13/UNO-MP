@@ -7,11 +7,11 @@ import java.io.Serializable;
  */
 public class Player implements Serializable {
 
-    String ip;
-    String user;
+    private String ip;
+    private String user;
     int cards;
-    boolean turn;
-    boolean canDraw;
+    private boolean turn;
+    private boolean canDraw;
 
     public Player(String username, String ip){
         this.ip = ip;

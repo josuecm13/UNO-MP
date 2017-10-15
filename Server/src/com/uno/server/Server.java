@@ -2,6 +2,10 @@ package com.uno.server;
 
 import com.uno.cards.AbsCard;
 import com.uno.cards.CardFactory;
+import com.uno.cards.special.DrawFour;
+import com.uno.cards.special.DrawTwo;
+import com.uno.cards.special.Reverse;
+import com.uno.cards.special.Skip;
 import com.uno.interfaces.IServer;
 import com.uno.interfaces.Observer;
 import com.uno.players.Player;
@@ -105,7 +109,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
             card = null;
             endTurn();
             try {
-                applyPower(topCard.getPower());
+                applyPower(topCard);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -222,14 +226,14 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         clientObservers.get(id).drawCards(n);
     }
 
-    private void applyPower(String power) throws Exception {
+    private void applyPower(AbsCard card) throws Exception {
         int turns = 2;
-        if(Objects.equals(power, "Skip")){
-        }else if(Objects.equals(power, "DrawTwo")) {
+        if(Objects.equals(card.getClass(), Skip.class)){
+        }else if(Objects.equals(card.getClass(), DrawTwo.class)) {
             notifyDraw(2,currentClient);
-        }else if(Objects.equals(power, "DrawFour")){
+        }else if(Objects.equals(card.getClass(), DrawFour.class)){
             notifyDraw(4,currentClient);
-        }else if(Objects.equals(power, "Reverse")) {
+        }else if(Objects.equals(card.getClass(), Reverse.class)) {
             turns = 1;
             Collections.reverse(players);
         }else{

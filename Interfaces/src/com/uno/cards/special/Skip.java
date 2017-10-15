@@ -7,6 +7,10 @@ public class Skip extends SpecialCard {
 
     public Skip() {
         number = 10;
-        power = "Skip";
+    }
+
+    @Override
+    public String toString() {
+        return "Skip";
     }
 }

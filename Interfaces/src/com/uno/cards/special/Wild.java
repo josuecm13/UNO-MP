@@ -7,6 +7,10 @@ package com.uno.cards.special;
 public class Wild extends WildCard {
     public Wild() {
         super();
-        power = "Wild";
+    }
+
+    @Override
+    public String toString() {
+        return "Wild";
     }
 }

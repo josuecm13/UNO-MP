@@ -8,7 +8,10 @@ public class DrawTwo extends SpecialCard {
 
     public DrawTwo() {
         number = 12;
-        power = "DrawTwo";
     }
 
+    @Override
+    public String toString() {
+        return "DrawTwo";
+    }
 }
