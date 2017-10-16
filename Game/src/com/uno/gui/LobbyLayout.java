@@ -1,6 +1,7 @@
 package com.uno.gui;
 
 import com.uno.client.Controller;
+import com.uno.interfaces.IServer;
 import com.uno.players.Player;
 
 import javax.swing.*;
@@ -98,6 +99,10 @@ public class LobbyLayout extends GameView {
         });
     }
 
+    public void openGame(){
+
+    }
+
     public void startGame() throws Exception {
         new MainLayout();
     }
@@ -118,6 +123,28 @@ public class LobbyLayout extends GameView {
         window.add(updateButton);
         window.add(startGameButton);
         addRowToTable();
+    }
+
+    private class LobbyWaiter implements Runnable{
+
+        Controller c = Controller.getInstance();
+
+        private LobbyWaiter() throws Exception {}
+
+        @Override
+        public void run() {
+            while (true){
+                try {
+                    if(c.canStart()){
+                        c.startGame();
+                    }else {
+                        Thread.sleep(5000);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }

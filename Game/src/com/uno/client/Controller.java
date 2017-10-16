@@ -34,7 +34,7 @@ public class Controller implements Serializable, Observer {
     LobbyLayout lobby;
 
     private Controller() throws Exception{
-        this.server = (IServer) Naming.lookup("//localhost/UNOServer");
+        this.server = (IServer) Naming.lookup("//localhost:7777/UNOServer");
     }
 
     public static Controller getInstance() throws Exception {
@@ -54,6 +54,8 @@ public class Controller implements Serializable, Observer {
             e.printStackTrace();
         }
     }
+
+
 
     public void startGame() throws Exception {
         if(server.canDraw()){
@@ -146,11 +148,14 @@ public class Controller implements Serializable, Observer {
     @Override
     public void chooseColor() throws RemoteException {
         try {
-            ChooseColorFrame frame = new ChooseColorFrame();
+            new ChooseColorFrame();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public boolean canStart() throws RemoteException {
+        return server.canDraw();
+    }
 
 }

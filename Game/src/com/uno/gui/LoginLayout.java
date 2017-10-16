@@ -1,5 +1,7 @@
 package com.uno.gui;
 
+import com.uno.client.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

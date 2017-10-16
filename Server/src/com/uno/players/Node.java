@@ -1,8 +1,6 @@
 package com.uno.players;
 
-/**
- * Created by Admin on 8/10/2017.
- */
+
 public class Node{
     Player data;
     Node next;
