@@ -16,11 +16,13 @@
       <file leaf-file-name="MainLayout.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/uno/gui/MainLayout.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="89" column="5" lean-forward="true" selection-start-line="89" selection-start-column="5" selection-end-line="89" selection-end-column="5" />
+            <state relative-caret-position="304">
+              <caret line="92" column="5" lean-forward="true" selection-start-line="92" selection-start-column="5" selection-end-line="92" selection-end-column="5" />
               <folding>
-                <marker date="1508198425363" expanded="false" signature="6564:6578" ph=" { " />
-                <marker date="1508198425363" expanded="false" signature="6595:6605" ph=" }" />
+                <element signature="e#4491#4656#0" expanded="true" />
+                <element signature="e#4655#4656#0" expanded="true" />
+                <marker date="1508219663807" expanded="false" signature="7680:7694" ph=" { " />
+                <marker date="1508219663807" expanded="false" signature="7711:7721" ph=" }" />
               </folding>
             </state>
           </provider>
@@ -66,8 +68,8 @@
         <option value="$PROJECT_DIR$/src/com/uno/gui/CardGUI.java" />
         <option value="$PROJECT_DIR$/src/com/uno/gui/GameView.java" />
         <option value="$PROJECT_DIR$/src/com/uno/client/Controller.java" />
-        <option value="$PROJECT_DIR$/src/com/uno/gui/MainLayout.java" />
         <option value="$PROJECT_DIR$/src/com/uno/gui/CardManager.java" />
+        <option value="$PROJECT_DIR$/src/com/uno/gui/MainLayout.java" />
       </list>
     </option>
   </component>
@@ -562,8 +564,10 @@
         <state relative-caret-position="966">
           <caret line="57" column="9" lean-forward="false" selection-start-line="57" selection-start-column="9" selection-end-line="57" selection-end-column="9" />
           <folding>
-            <marker date="1508198425363" expanded="false" signature="6564:6578" ph=" { " />
-            <marker date="1508198425363" expanded="false" signature="6595:6605" ph=" }" />
+            <element signature="e#4491#4656#0" expanded="true" />
+            <element signature="e#4655#4656#0" expanded="true" />
+            <marker date="1508219663807" expanded="false" signature="7680:7694" ph=" { " />
+            <marker date="1508219663807" expanded="false" signature="7711:7721" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -618,8 +622,10 @@
         <state relative-caret-position="861">
           <caret line="52" column="0" lean-forward="true" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
           <folding>
-            <marker date="1508198425363" expanded="false" signature="6564:6578" ph=" { " />
-            <marker date="1508198425363" expanded="false" signature="6595:6605" ph=" }" />
+            <element signature="e#4491#4656#0" expanded="true" />
+            <element signature="e#4655#4656#0" expanded="true" />
+            <marker date="1508219663807" expanded="false" signature="7680:7694" ph=" { " />
+            <marker date="1508219663807" expanded="false" signature="7711:7721" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -640,8 +646,10 @@
         <state relative-caret-position="966">
           <caret line="57" column="9" lean-forward="false" selection-start-line="57" selection-start-column="9" selection-end-line="57" selection-end-column="9" />
           <folding>
-            <marker date="1508198425363" expanded="false" signature="6564:6578" ph=" { " />
-            <marker date="1508198425363" expanded="false" signature="6595:6605" ph=" }" />
+            <element signature="e#4491#4656#0" expanded="true" />
+            <element signature="e#4655#4656#0" expanded="true" />
+            <marker date="1508219663807" expanded="false" signature="7680:7694" ph=" { " />
+            <marker date="1508219663807" expanded="false" signature="7711:7721" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -746,8 +754,10 @@
         <state relative-caret-position="462">
           <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
           <folding>
-            <marker date="1508198425363" expanded="false" signature="6564:6578" ph=" { " />
-            <marker date="1508198425363" expanded="false" signature="6595:6605" ph=" }" />
+            <element signature="e#4491#4656#0" expanded="true" />
+            <element signature="e#4655#4656#0" expanded="true" />
+            <marker date="1508219663807" expanded="false" signature="7680:7694" ph=" { " />
+            <marker date="1508219663807" expanded="false" signature="7711:7721" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -787,8 +797,10 @@
         <state relative-caret-position="399">
           <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
           <folding>
-            <marker date="1508198425363" expanded="false" signature="6564:6578" ph=" { " />
-            <marker date="1508198425363" expanded="false" signature="6595:6605" ph=" }" />
+            <element signature="e#4491#4656#0" expanded="true" />
+            <element signature="e#4655#4656#0" expanded="true" />
+            <marker date="1508219663807" expanded="false" signature="7680:7694" ph=" { " />
+            <marker date="1508219663807" expanded="false" signature="7711:7721" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -914,11 +926,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/uno/gui/MainLayout.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="89" column="5" lean-forward="true" selection-start-line="89" selection-start-column="5" selection-end-line="89" selection-end-column="5" />
+        <state relative-caret-position="304">
+          <caret line="92" column="5" lean-forward="true" selection-start-line="92" selection-start-column="5" selection-end-line="92" selection-end-column="5" />
           <folding>
-            <marker date="1508198425363" expanded="false" signature="6564:6578" ph=" { " />
-            <marker date="1508198425363" expanded="false" signature="6595:6605" ph=" }" />
+            <element signature="e#4491#4656#0" expanded="true" />
+            <element signature="e#4655#4656#0" expanded="true" />
+            <marker date="1508219663807" expanded="false" signature="7680:7694" ph=" { " />
+            <marker date="1508219663807" expanded="false" signature="7711:7721" ph=" }" />
           </folding>
         </state>
       </provider>
