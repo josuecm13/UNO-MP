@@ -117,8 +117,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     @Override
     public AbsCard pushHelper(AbsCard absCard, int id) throws RemoteException {
-        Player p = idPlayers.get(id);
-        boolean o = turnPlayer.getTurn();
         if(turnPlayer == idPlayers.get(id) && turnPlayer.getTurn()) {
             currentClient = id;
             AbsCard cardAux = pushCard(absCard);
@@ -151,9 +149,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     private boolean addToDraw(AbsCard card, int clientID) throws RemoteException{
         if(turnPlayer == idPlayers.get(clientID) &&  turnPlayer.getTurn() ) {
-            if (!playerCards.containsKey(clientID)) {
-                throw new RemoteException("No existe el usuario");
-            }
             idPlayers.get(clientID).addCard(card);
             turnPlayer.setPlayerDraw(false);
             return true;

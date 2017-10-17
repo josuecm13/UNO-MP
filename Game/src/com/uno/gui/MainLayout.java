@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import static com.uno.gui.CardManager.placeDeck;
 
 
-public class MainLayout extends GameView implements ActionListener {
+public class MainLayout extends GameView {
 
     private Controller controller;
     private CardManager cardManager;
@@ -26,8 +26,8 @@ public class MainLayout extends GameView implements ActionListener {
     private JButton drawButton;
     private JButton btn;
     private JButton passBtn;
-    private JTextField chatField;
-    private JTextArea chatArea;
+    //private JTextField chatField;
+    //private JTextArea chatArea;
     private JScrollPane scroll;
     private JScrollPane pane;
     private JTable table;
@@ -117,18 +117,39 @@ public class MainLayout extends GameView implements ActionListener {
     }
 
     private void setChat() {
+        /*
         Font font = new Font("Courier", Font.BOLD,16);
 
         chatField = new JTextField(4);
         chatField.addActionListener(this);
         chatField.setFont(font);
 
+
         chatArea = new JTextArea(1,4);
         chatArea.setEditable(false);
         chatArea.setFont(font);
+        */
 
-        scroll = new JScrollPane(chatArea);
-        scroll.setSize(300,500);
+        table = new JTable();
+        Object[] columns = {"Usernames", "IP"};
+        DefaultTableModel model = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        model.setColumnIdentifiers(columns);
+        table.setModel(model);
+        table.setBackground(Color.decode("#CC0000"));
+        table.setForeground(Color.yellow);
+        Font gameFont = new Font("Lucida Sans",1,16);
+        table.setFont(gameFont);
+        table.setRowHeight(16);
+        table.setShowVerticalLines(false);
+
+        scroll = new JScrollPane(table);
+        scroll.getViewport().setBackground(Color.decode("#CC0000"));
+        scroll.setPreferredSize(new Dimension(40, 10)); // No se lo que hice pero medio funciona. El tamaño no se cambia :v
     }
 
     private void setPlayerInfo(){
@@ -170,11 +191,12 @@ public class MainLayout extends GameView implements ActionListener {
         setUNOButton(window);
         setPassButton(window);
         setChat();
-        setPlayerInfo();
+        //setPlayerInfo();
         setTopCard();
 
         GridBagConstraints gbc = new GridBagConstraints();
 
+        /*
         gbc.weightx = gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -182,23 +204,15 @@ public class MainLayout extends GameView implements ActionListener {
         gbc.gridy = 1;
         gbc.gridwidth = 4;
         window.add(chatField, gbc);
+        */
 
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.weightx = gbc.weighty = 1.0;
+        gbc.weightx = gbc.weighty = 0.5;
         gbc.gridwidth = 4;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
         gbc.gridy = 0;
         window.add(scroll, gbc);
-
-        gbc.anchor = GridBagConstraints.NORTHEAST;
-        gbc.weightx = gbc.weighty = 1.0;
-        gbc.gridwidth = 4;
-        gbc.fill = GridBagConstraints.REMAINDER;
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        window.add(pane, gbc);
-
 
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
@@ -228,6 +242,7 @@ public class MainLayout extends GameView implements ActionListener {
         window.add(lbl, gbc);
     }
 
+    /*
     @Override
     public void actionPerformed(ActionEvent e) {
         String text = chatField.getText();
@@ -235,6 +250,7 @@ public class MainLayout extends GameView implements ActionListener {
         chatField.setText("");
         chatArea.setCaretPosition(chatArea.getDocument().getLength());
     }
+    */
 
     private class GameUpdater implements Runnable{
 
