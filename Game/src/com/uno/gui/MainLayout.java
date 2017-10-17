@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import static com.uno.gui.CardManager.placeDeck;
 
 
-public class MainLayout extends GameView {
+public class MainLayout extends GameView implements ActionListener{
 
     private Controller controller;
     private CardManager cardManager;
@@ -26,10 +26,10 @@ public class MainLayout extends GameView {
     private JButton drawButton;
     private JButton btn;
     private JButton passBtn;
-    //private JTextField chatField;
-    //private JTextArea chatArea;
+    private JTextField chatField;
+    private JTextArea chatArea;
     private JScrollPane scroll;
-    private JScrollPane pane;
+    private JScrollPane textScroll;
     private JTable table;
 
     private ImageIcon backCard = new ImageIcon("res/back.png");
@@ -117,21 +117,22 @@ public class MainLayout extends GameView {
     }
 
     private void setChat() {
-        /*
+
         Font font = new Font("Courier", Font.BOLD,16);
 
         chatField = new JTextField(4);
         chatField.addActionListener(this);
         chatField.setFont(font);
 
-
-        chatArea = new JTextArea(1,4);
+        chatArea = new JTextArea(1,2);
         chatArea.setEditable(false);
         chatArea.setFont(font);
-        */
+
+        textScroll = new JScrollPane(chatArea);
+
 
         table = new JTable();
-        Object[] columns = {"Usernames", "IP"};
+        Object[] columns = {"Usernames", "Cards", "Turn"};
         DefaultTableModel model = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -150,28 +151,10 @@ public class MainLayout extends GameView {
         scroll = new JScrollPane(table);
         scroll.getViewport().setBackground(Color.decode("#CC0000"));
         scroll.setPreferredSize(new Dimension(40, 10)); // No se lo que hice pero medio funciona. El tamaño no se cambia :v
-    }
 
-    private void setPlayerInfo(){
-        table = new JTable();
-        Object[] columns = {"Usernames", "cards","turn"};
-        DefaultTableModel model = new DefaultTableModel(){
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        model.setColumnIdentifiers(columns);
-        table.setModel(model);
-        table.setBackground(Color.decode("#CC0000"));
-        table.setForeground(Color.yellow);
-        table.setFont(new Font("Courier", Font.PLAIN,14));
-        table.setRowHeight(30);
-        table.setShowVerticalLines(false);
-        pane = new JScrollPane(table);
-        pane.getViewport().setBackground(Color.decode("#CC0000"));
 
     }
+
 
     public AbsCard sendCard(AbsCard card) throws RemoteException {
         return controller.pushCard(card);
@@ -191,26 +174,32 @@ public class MainLayout extends GameView {
         setUNOButton(window);
         setPassButton(window);
         setChat();
-        //setPlayerInfo();
         setTopCard();
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        /*
+
         gbc.weightx = gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 4;
+        gbc.gridwidth = 2;
         window.add(chatField, gbc);
-        */
 
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.weightx = gbc.weighty = 0.5;
-        gbc.gridwidth = 4;
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
+        gbc.gridy = 0;
+        window.add(textScroll, gbc);
+
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 2;
         gbc.gridy = 0;
         window.add(scroll, gbc);
 
@@ -242,7 +231,7 @@ public class MainLayout extends GameView {
         window.add(lbl, gbc);
     }
 
-    /*
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String text = chatField.getText();
@@ -250,7 +239,7 @@ public class MainLayout extends GameView {
         chatField.setText("");
         chatArea.setCaretPosition(chatArea.getDocument().getLength());
     }
-    */
+
 
     private class GameUpdater implements Runnable{
 
