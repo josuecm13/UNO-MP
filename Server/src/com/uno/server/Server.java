@@ -201,6 +201,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         playersID.remove(p);
         players.remove(p);
         observers.remove(observer);
+        message += "***** "+ p.getUser() + " ha dejado la partida *****\n";
         notifyObservers();
     }
 

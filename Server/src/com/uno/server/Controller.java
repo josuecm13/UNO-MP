@@ -47,7 +47,8 @@ public class Controller {
     }
 
     public void endGame() throws RemoteException{
-        //
+        server.writeMessage("***** El Servidor ha terminado el juego *****\n");
+        System.exit(0);
     }
 
 }
