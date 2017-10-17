@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Created by ${gaboq} on 21/9/2017.
  */
+
 public class Player implements Serializable {
 
     private String ip;
@@ -26,7 +27,14 @@ public class Player implements Serializable {
 
     public void addCard(AbsCard card) { deck.add(card);}
 
-    public void removeCard(AbsCard card) { deck.remove(card); }
+    public void removeCard(AbsCard card) {
+        for(int i = 0; i < deck.size(); i++) {
+            if(deck.get(i).getColor() == card.getColor() && deck.get(i).getNumber() == card.getNumber()) {
+                deck.remove(i);
+                break;
+            }
+        }
+    }
 
     public List<AbsCard> getDeck() { return deck; }
 

@@ -33,7 +33,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     Server() throws RemoteException {
         players = new ArrayList<>();
         message = "";
-        //playerCards = new HashMap<>();
         observers = new ArrayList<>();
         playersID = new HashMap<>();
         idPlayers = new HashMap<>();
@@ -54,10 +53,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         turnPlayer.setTurn(true);
     }
 
-    private void endTurn() {
-        turnPlayer.setTurn(false);
-    }
-
     //ICard
     @Override
     public AbsCard generateCard(int clientID) throws Exception {
@@ -67,6 +62,13 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
             return card;
         }
         return null;
+    }
+
+    @Override
+    public AbsCard generateFirstCard(int clientID) throws Exception {
+        AbsCard card = CardFactory.getCard();
+        idPlayers.get(clientID).addCard(card);
+        return card;
     }
 
     @Override
@@ -132,8 +134,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     public AbsCard pushHelper(AbsCard absCard, int id) throws RemoteException {
         if(turnPlayer == idPlayers.get(id) && turnPlayer.getTurn()) {
             currentClient = id;
-            AbsCard cardAux = pushCard(absCard);
-            return cardAux;
+            return pushCard(absCard);
         } else {
             return absCard;
         }

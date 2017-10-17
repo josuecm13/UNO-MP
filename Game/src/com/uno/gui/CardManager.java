@@ -29,7 +29,7 @@ public class CardManager extends JComponent implements MouseListener, Serializab
         addMouseListener(this);
     }
 
-    public void processCard() throws Exception {
+    private void processCard() throws Exception {
         if (currentCard != null) {
             int index = deck.indexOf(currentCard);
             this.card = deck.remove(index);
@@ -48,7 +48,7 @@ public class CardManager extends JComponent implements MouseListener, Serializab
         this.layout = layout;
     }
 
-    public CardGUI getCard() {
+    private CardGUI getCard() {
         return card;
     }
 
@@ -63,12 +63,12 @@ public class CardManager extends JComponent implements MouseListener, Serializab
         return "res/" + cardStr + ".png";
     }
 
-    private static String setImageNumber(AbsCard card) {
+    public static String setImageNumber(AbsCard card) {
         int number = card.getNumber();
         return cards[number];
     }
 
-    public static void placeDeck(ArrayList<CardGUI> hand) {
+    protected static void placeDeck(ArrayList<CardGUI> hand) {
         int initX = 656;
         int initY = 675;
         int cant = hand.size();
@@ -99,14 +99,14 @@ public class CardManager extends JComponent implements MouseListener, Serializab
         }
     }
 
-    public boolean isEmpty() {
+    private boolean isEmpty() {
         return deck.size() == 0;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int x = e.getX();   // Save the x coord of the click
-        int y = e.getY();   // Save the y coord of the click
+        int x = e.getX();
+        int y = e.getY();
         for (int crd=deck.size()-1; crd>=0; crd--) {
             CardGUI testCard = deck.get(crd);
             if (testCard.contains(x, y)) {
@@ -119,8 +119,6 @@ public class CardManager extends JComponent implements MouseListener, Serializab
                             System.exit(0);
                         }
                     }
-                } catch (RemoteException e1) {
-                    e1.printStackTrace();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

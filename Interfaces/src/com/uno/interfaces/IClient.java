@@ -14,6 +14,8 @@ public interface IClient extends Serializable {
 
     AbsCard generateCard(int userID) throws Exception;
 
+    AbsCard generateFirstCard(int userID) throws Exception;
+
     String getMessage() throws RemoteException;
 
     void writeMessage(String message) throws RemoteException;

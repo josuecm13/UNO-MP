@@ -92,6 +92,10 @@ public class Controller implements Serializable, Observer {
         return server.getCard();
     }
 
+    public AbsCard generateFirstCard() throws Exception {
+        return server.generateFirstCard(clientID);
+    }
+
     public AbsCard getFirstCard() throws Exception {
         AbsCard card = server.getCard();
         while (card.isSpecial()) {

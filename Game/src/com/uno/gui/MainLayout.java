@@ -2,6 +2,7 @@ package com.uno.gui;
 
 
 import com.uno.cards.AbsCard;
+import com.uno.cards.special.Reverse;
 import com.uno.client.Controller;
 import com.uno.players.Player;
 
@@ -13,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.uno.gui.CardManager.placeDeck;
 
@@ -40,7 +42,6 @@ public class MainLayout extends GameView implements ActionListener{
     private ImageIcon passImg = new ImageIcon("res/pass.png");
 
 
-    //============================================================== constructor
     public MainLayout() throws Exception{
         controller = Controller.getInstance();
         generateDeck(7);
@@ -57,7 +58,7 @@ public class MainLayout extends GameView implements ActionListener{
 
     private void generateDeck(int cardNumb) throws Exception {
          for (int face=0; face < cardNumb; face++) {
-            AbsCard card = controller.getCard();
+            AbsCard card = controller.generateFirstCard();
             ImageIcon img = generateCardIcon(card);
             CardGUI cardGUI = new CardGUI(img, card);
             hand.add(cardGUI);
@@ -151,8 +152,7 @@ public class MainLayout extends GameView implements ActionListener{
 
         scroll = new JScrollPane(table);
         scroll.getViewport().setBackground(Color.decode("#CC0000"));
-        scroll.setPreferredSize(new Dimension(40, 10)); // No se lo que hice pero medio funciona. El tamaño no se cambia :v
-
+        scroll.setPreferredSize(new Dimension(40, 10));
 
     }
 
@@ -161,7 +161,7 @@ public class MainLayout extends GameView implements ActionListener{
         return controller.pushCard(card);
     }
 
-    public void setTopCard() throws Exception {
+    private void setTopCard() throws Exception {
         AbsCard card = controller.setTopCard();
         ImageIcon img = generateCardIcon(card);
         lbl.setIcon(img);
@@ -211,7 +211,6 @@ public class MainLayout extends GameView implements ActionListener{
         gbc.weightx=1;
         gbc.gridx = 0;
         gbc.gridy = 1;
-        window.add(passBtn, gbc);
 
         gbc.weightx = gbc.weighty = 1.0;
         gbc.insets = new Insets(0,0,200, 0);
@@ -240,7 +239,9 @@ public class MainLayout extends GameView implements ActionListener{
         Object rowInfo[] = new Object[3];
         for (int i = 0; i < players.size(); i++) {
             rowInfo[0] = players.get(i).getUser();
+
             rowInfo[1] = players.get(i).getDeck().size();
+
             if(players.get(i).getTurn()){
                 rowInfo[2] = "X";
             }else{
