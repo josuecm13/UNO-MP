@@ -6,6 +6,7 @@ import com.uno.client.Controller;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +29,8 @@ public class MainLayout extends GameView implements ActionListener {
     private JTextField chatField;
     private JTextArea chatArea;
     private JScrollPane scroll;
+    private JScrollPane pane;
+    private JTable table;
 
     private ImageIcon backCard = new ImageIcon("res/back.png");
     private ImageIcon UNObtn = new ImageIcon("res/botnUNO.png");
@@ -128,6 +131,27 @@ public class MainLayout extends GameView implements ActionListener {
         scroll.setSize(300,500);
     }
 
+    private void setPlayerInfo(){
+        table = new JTable();
+        Object[] columns = {"Usernames", "cards","turn"};
+        DefaultTableModel model = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        model.setColumnIdentifiers(columns);
+        table.setModel(model);
+        table.setBackground(Color.decode("#CC0000"));
+        table.setForeground(Color.yellow);
+        table.setFont(new Font("Courier", Font.PLAIN,14));
+        table.setRowHeight(30);
+        table.setShowVerticalLines(false);
+        pane = new JScrollPane(table);
+        pane.getViewport().setBackground(Color.decode("#CC0000"));
+
+    }
+
     public AbsCard sendCard(AbsCard card) throws RemoteException {
         return controller.pushCard(card);
     }
@@ -146,6 +170,7 @@ public class MainLayout extends GameView implements ActionListener {
         setUNOButton(window);
         setPassButton(window);
         setChat();
+        setPlayerInfo();
         setTopCard();
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -165,6 +190,15 @@ public class MainLayout extends GameView implements ActionListener {
         gbc.gridx = 0;
         gbc.gridy = 0;
         window.add(scroll, gbc);
+
+        gbc.anchor = GridBagConstraints.NORTHEAST;
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.gridwidth = 4;
+        gbc.fill = GridBagConstraints.REMAINDER;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        window.add(pane, gbc);
+
 
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;

@@ -19,7 +19,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     private ArrayList<Player> players;
     private ArrayList<Observer> observers;
-    private Map<Integer, ArrayList<AbsCard>> playerCards;
     private Map<Integer, Observer> clientObservers;
     private Map<Player, Integer> playersID;
     private Map<Integer, Player> idPlayers;
@@ -30,9 +29,9 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     private Player turnPlayer;
     private boolean isReady = false;
 
-    protected Server() throws RemoteException {
+    Server() throws RemoteException {
         players = new ArrayList<>();
-        playerCards = new HashMap<>();
+        //playerCards = new HashMap<>();
         observers = new ArrayList<>();
         playersID = new HashMap<>();
         idPlayers = new HashMap<>();
@@ -105,7 +104,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     public AbsCard pushCard(AbsCard card) throws RemoteException {
         if(validateMove(card)) {
             topCard = card;
-            playerCards.remove(currentClient,card);
+            idPlayers.get(currentClient).removeCard(card);
             card = null;
             endTurn();
             try {
@@ -146,7 +145,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         ++playerID;
         playersID.put(player, playerID);
         idPlayers.put(playerID,player);
-        playerCards.put(playerID, new ArrayList<>());
         turnPlayer = players.get(0);
         turnPlayer.setTurn(true);
         return playerID;
@@ -154,12 +152,10 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     private boolean addToDraw(AbsCard card, int clientID) throws RemoteException{
         if(turnPlayer.getTurn() & turnPlayer == idPlayers.get(clientID)) {
-            if (!playerCards.containsKey(clientID)) {
+            if (!idPlayers.containsKey(clientID)) {
                 throw new RemoteException("No existe el usuario");
             }
-            ArrayList<AbsCard> draw = playerCards.get(clientID);
-            draw.add(card);
-            playerCards.replace(clientID, draw);
+            idPlayers.get(clientID).addCard(card);
             turnPlayer.setPlayerDraw(false);
             return true;
         } else {
@@ -168,17 +164,11 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     }
 
     @Override
-    public String getDraw(int clientID) throws RemoteException {
-        if(!playerCards.containsKey(clientID)) {
+    public List<AbsCard> getDraw(int clientID) throws RemoteException {
+        if(!idPlayers.containsKey(clientID)) {
             throw new RemoteException();
         }
-        String result = "";
-        ArrayList<AbsCard> draw = playerCards.get(clientID);
-        for (AbsCard card: draw) {
-            result += "Numero " + card.getNumber() +"\n"
-                    + "Color " + card.getColor() +"\n\n";
-        }
-        return result;
+        return idPlayers.get(clientID).getDeck();
     }
 
     @Override
@@ -203,7 +193,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         Player p = idPlayers.remove(observer.getID());
         playersID.remove(p);
         players.remove(p);
-        playerCards.remove(observer.getID());
         observers.remove(observer);
         notifyObservers();
     }
