@@ -68,7 +68,7 @@ public abstract class GameView extends JFrame implements Serializable {
                             try {
                                 Controller.getInstance().removeClient();
                             } catch (RemoteException e) {
-                                System.out.println("controller nulo");;
+                                System.out.println("controller nulo");
                             }
                         }
                     } catch (Exception e) {
@@ -78,7 +78,6 @@ public abstract class GameView extends JFrame implements Serializable {
                 }
             }
         });
-        //window.setLocationRelativeTo(null);
         return window;
     }
 

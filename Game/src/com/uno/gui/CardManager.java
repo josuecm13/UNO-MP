@@ -46,7 +46,6 @@ public class CardManager extends JComponent implements MouseListener, Serializab
         }
     }
 
-
     public void setLayout(MainLayout layout){
         this.layout = layout;
     }
@@ -56,13 +55,12 @@ public class CardManager extends JComponent implements MouseListener, Serializab
     }
 
     public static String setCardImage(AbsCard card) {
-
         String cardStr;
         int color = card.getColor();
         if(!card.isSpecial()) {
             cardStr = setImageNumber(card) + colors[color];
         } else {
-            cardStr = card.toString() + colors[color];
+            cardStr = card.getPower() + colors[color];
         }
         return "res/" + cardStr + ".png";
     }
@@ -103,6 +101,10 @@ public class CardManager extends JComponent implements MouseListener, Serializab
         }
     }
 
+    public boolean isEmpty() {
+        return deck.size() == 0;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         int x = e.getX();   // Save the x coord of the click
@@ -113,6 +115,12 @@ public class CardManager extends JComponent implements MouseListener, Serializab
                 currentCard = testCard;
                 try {
                     processCard();
+                    if (isEmpty()) {
+                        JOptionPane.showMessageDialog(this , "Felicidades ha ganado",
+                                "Fin de la partida", JOptionPane.PLAIN_MESSAGE);{
+                            System.exit(0);
+                        }
+                    }
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 } catch (Exception e1) {

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import static com.uno.gui.CardManager.placeDeck;
 
 
-public class MainLayout extends GameView {
+public class MainLayout extends GameView implements ActionListener {
 
     private Controller controller;
     private CardManager cardManager;
@@ -25,6 +25,9 @@ public class MainLayout extends GameView {
     private JButton drawButton;
     private JButton btn;
     private JButton passBtn;
+    private JTextField chatField;
+    private JTextArea chatArea;
+    private JScrollPane scroll;
 
     private ImageIcon backCard = new ImageIcon("res/back.png");
     private ImageIcon UNObtn = new ImageIcon("res/botnUNO.png");
@@ -47,7 +50,6 @@ public class MainLayout extends GameView {
         Thread thread = new Thread(new GameUpdater(this));
         thread.start();
     }
-
 
     private void generateDeck(int cardNumb) throws Exception {
          for (int face=0; face < cardNumb; face++) {
@@ -94,7 +96,8 @@ public class MainLayout extends GameView {
         btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(hand.size() == 1)
-                    System.exit(0);
+                    JOptionPane.showMessageDialog(instance , "UNO",
+                            "UNO", JOptionPane.PLAIN_MESSAGE);
             }
         });
     }
@@ -110,6 +113,21 @@ public class MainLayout extends GameView {
         });
     }
 
+    private void setChat() {
+        Font font = new Font("Courier", Font.BOLD,16);
+
+        chatField = new JTextField(4);
+        chatField.addActionListener(this);
+        chatField.setFont(font);
+
+        chatArea = new JTextArea(1,4);
+        chatArea.setEditable(false);
+        chatArea.setFont(font);
+
+        scroll = new JScrollPane(chatArea);
+        scroll.setSize(300,500);
+    }
+
     public AbsCard sendCard(AbsCard card) throws RemoteException {
         return controller.pushCard(card);
     }
@@ -120,7 +138,6 @@ public class MainLayout extends GameView {
         lbl.setIcon(img);
     }
 
-
     @Override
     protected void setComponents(JFrame window) throws Exception {
         window.setContentPane(cardManager);
@@ -128,25 +145,62 @@ public class MainLayout extends GameView {
         setDrawButton(window);
         setUNOButton(window);
         setPassButton(window);
+        setChat();
         setTopCard();
+
         GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.weightx=1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 4;
+        window.add(chatField, gbc);
+
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.gridwidth = 4;
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
         gbc.gridy = 0;
+        window.add(scroll, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx = gbc.weighty = 0.0;
+        gbc.insets = new Insets(0,0,200, 0);
+        gbc.weightx=1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         window.add(passBtn, gbc);
+
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.insets = new Insets(0,0,200, 0);
         gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         window.add(drawButton, gbc);
+
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.insets = new Insets(0,0,200, 0);
         gbc.gridx = 2;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         window.add(btn, gbc);
+
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.insets = new Insets(0,0,200, 0);
         gbc.gridx = 3;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         window.add(lbl, gbc);
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String text = chatField.getText();
+        chatArea.append(controller.getUser() + ": " + text + "\n");
+        chatField.setText("");
+        chatArea.setCaretPosition(chatArea.getDocument().getLength());
+    }
 
     private class GameUpdater implements Runnable{
 
@@ -171,7 +225,7 @@ public class MainLayout extends GameView {
                 }
             }
         }
-    }
 
+    }
 
 }

@@ -47,7 +47,7 @@ public class Controller {
     }
 
     public void endGame() throws RemoteException{
-
+        //
     }
 
 }

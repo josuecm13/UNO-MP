@@ -43,6 +43,10 @@ public class Controller implements Serializable, Observer {
         return instance;
     }
 
+    public String getUser() {
+        return user;
+    }
+
     public void setSelectedColor(int color) throws RemoteException {
         server.setSelectedColor(color);
     }
@@ -54,8 +58,6 @@ public class Controller implements Serializable, Observer {
             e.printStackTrace();
         }
     }
-
-
 
     public void startGame() throws Exception {
         if(server.canDraw()){

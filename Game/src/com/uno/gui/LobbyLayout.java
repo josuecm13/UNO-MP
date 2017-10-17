@@ -14,6 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 7/10/2017.
  */
+
 public class LobbyLayout extends GameView {
 
     private JTable table;
@@ -46,7 +47,6 @@ public class LobbyLayout extends GameView {
             model.addRow(rowInfo);
         }
     }
-
 
     private void setTable(){
         table = new JTable();
@@ -92,19 +92,15 @@ public class LobbyLayout extends GameView {
         startGameButton.addActionListener(e ->{
             try {
                 controller.startGame();
-                instance.dispose();
             } catch (Exception e1) {
 
             }
         });
     }
 
-    public void openGame(){
-
-    }
-
     public void startGame() throws Exception {
         new MainLayout();
+        instance.dispose();
     }
 
     public void deleteAllRows(DefaultTableModel model) {
@@ -125,7 +121,7 @@ public class LobbyLayout extends GameView {
         addRowToTable();
     }
 
-    private class LobbyWaiter implements Runnable{
+    private class LobbyWaiter implements Runnable {
 
         Controller c = Controller.getInstance();
 
