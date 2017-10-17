@@ -107,7 +107,6 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
             topCard = card;
             playerCards.remove(currentClient,card);
             card = null;
-            endTurn();
             try {
                 applyPower(topCard);
             } catch (Exception e) {
@@ -119,11 +118,11 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     @Override
     public AbsCard pushHelper(AbsCard absCard, int id) throws RemoteException {
-        if(turnPlayer.getTurn() & turnPlayer == idPlayers.get(id)) {
+        Player p = idPlayers.get(id);
+        boolean o = turnPlayer.getTurn();
+        if(turnPlayer == idPlayers.get(id) && turnPlayer.getTurn()) {
             currentClient = id;
             AbsCard cardAux = pushCard(absCard);
-            //notifyObservers();
-            nextTurn(1);
             return cardAux;
         } else {
             return absCard;
@@ -153,7 +152,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     }
 
     private boolean addToDraw(AbsCard card, int clientID) throws RemoteException{
-        if(turnPlayer.getTurn() & turnPlayer == idPlayers.get(clientID)) {
+        if(turnPlayer == idPlayers.get(clientID) &&  turnPlayer.getTurn() ) {
             if (!playerCards.containsKey(clientID)) {
                 throw new RemoteException("No existe el usuario");
             }

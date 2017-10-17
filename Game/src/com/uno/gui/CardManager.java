@@ -36,9 +36,7 @@ public class CardManager extends JComponent implements MouseListener, Serializab
             CardGUI cardGUITemp = getCard();
             AbsCard card = cardGUITemp.getCard();
             AbsCard newCar = layout.sendCard(card);
-            if(newCar == null) {
-                //layout.setTopCard();
-            } else {
+            if(newCar != null) {
                 deck.add(cardGUITemp);
             }
             placeDeck(deck);
@@ -126,7 +124,6 @@ public class CardManager extends JComponent implements MouseListener, Serializab
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
-                System.out.println("carta");
                 break;
             }
         }
