@@ -5,6 +5,7 @@ import com.uno.cards.AbsCard;
 import com.uno.client.Controller;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -37,6 +38,12 @@ public abstract class GameView extends JFrame implements Serializable {
         g2.drawImage(srcImg, 0, 0, w, h, null);
         g2.dispose();
         return resizedImg;
+    }
+
+    public void deleteAllRows(DefaultTableModel model) {
+        for( int i = model.getRowCount() - 1; i >= 0; i-- ) {
+            model.removeRow(i);
+        }
     }
 
     static void setButtonProps(JButton btn, ImageIcon img) {

@@ -3,6 +3,7 @@ package com.uno.gui;
 
 import com.uno.cards.AbsCard;
 import com.uno.client.Controller;
+import com.uno.players.Player;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -231,6 +232,24 @@ public class MainLayout extends GameView implements ActionListener{
         window.add(lbl, gbc);
     }
 
+    public void addRowToTable() throws RemoteException {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        deleteAllRows(model);
+        ArrayList<Player> players = controller.getPlayers();
+
+        Object rowInfo[] = new Object[3];
+        for (int i = 0; i < players.size(); i++) {
+            rowInfo[0] = players.get(i).getUser();
+            rowInfo[1] = players.get(i).getDeck().size();
+            if(players.get(i).getTurn()){
+                rowInfo[2] = "X";
+            }else{
+                rowInfo[2] = "";
+            }
+            model.addRow(rowInfo);
+        }
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -254,6 +273,7 @@ public class MainLayout extends GameView implements ActionListener{
             while(true){
                 try {
                     view.setTopCard();
+                    addRowToTable();
                 } catch (Exception e) {
                     //ignore
                 }

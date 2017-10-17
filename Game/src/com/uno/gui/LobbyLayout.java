@@ -103,12 +103,6 @@ public class LobbyLayout extends GameView {
         instance.dispose();
     }
 
-    public void deleteAllRows(DefaultTableModel model) {
-        for( int i = model.getRowCount() - 1; i >= 0; i-- ) {
-            model.removeRow(i);
-        }
-    }
-
     @Override
     protected void setComponents(JFrame window) throws Exception {
         window.setLayout(null);
