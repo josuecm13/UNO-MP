@@ -118,6 +118,14 @@ public class Controller implements Serializable, Observer {
         return server.generateCard(clientID);
     }
 
+    public void sendMessage(String msg) throws RemoteException{
+        server.writeMessage(msg);
+    }
+
+    public String setMessage() throws RemoteException {
+        return server.getMessage();
+    }
+
     public AbsCard pushCard(AbsCard card) throws RemoteException {
         return server.pushHelper(card, clientID);
     }

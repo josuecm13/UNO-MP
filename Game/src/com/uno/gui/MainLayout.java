@@ -250,13 +250,22 @@ public class MainLayout extends GameView implements ActionListener{
         }
     }
 
+    public void setText() throws RemoteException {
+        chatArea.setText(controller.setMessage());
+        chatArea.setCaretPosition(chatArea.getDocument().getLength());
+
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String text = chatField.getText();
-        chatArea.append(controller.getUser() + ": " + text + "\n");
+        try {
+            controller.sendMessage(controller.getUser() + ": " + text + "\n");
+        } catch (RemoteException e1) {
+            e1.printStackTrace();
+        }
         chatField.setText("");
-        chatArea.setCaretPosition(chatArea.getDocument().getLength());
     }
 
 
@@ -274,6 +283,7 @@ public class MainLayout extends GameView implements ActionListener{
                 try {
                     view.setTopCard();
                     addRowToTable();
+                    setText();
                 } catch (Exception e) {
                     //ignore
                 }

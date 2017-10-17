@@ -23,6 +23,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
     private Map<Player, Integer> playersID;
     private Map<Integer, Player> idPlayers;
     private AbsCard topCard;
+    private String message;
     private static final long serialVersionUID = 1L;
     private int playerID = new Random().nextInt();
     private int currentClient;
@@ -31,6 +32,7 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
 
     Server() throws RemoteException {
         players = new ArrayList<>();
+        message = "";
         //playerCards = new HashMap<>();
         observers = new ArrayList<>();
         playersID = new HashMap<>();
@@ -66,6 +68,17 @@ public class Server extends UnicastRemoteObject implements IServer, Serializable
         }
         return null;
     }
+
+    @Override
+    public String getMessage() throws RemoteException {
+        return message;
+    }
+
+    @Override
+    public void writeMessage(String s) throws RemoteException {
+        message += s;
+    }
+
 
     @Override
     public Boolean canDraw() throws RemoteException {
